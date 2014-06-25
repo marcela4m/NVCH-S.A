@@ -1,0 +1,69 @@
+select fechav from disponibles  WHERE doctor='pepe' AND fechai='2013-11-12';
+
+
+select * from disponibles  WHERE doctor='pepe' AND fechai='2013-11-12';
+
+
+
+
+select doctor,fechai,fechav from disponibles  WHERE doctor='doctor',fechai='2013-11-12';
+
+
+select doctor,especialidad from disponibles  WHERE especialidad='general';
+
+INSERT INTO `alumnos`(`codigo`, `nombre`) VALUES (3,"este")
+
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Problema</title>
+</head>
+<body>
+
+<form action="2.php" method="post">
+
+
+Usuario:
+<input name="uno" type="text"><br>
+
+
+Contraseña:
+<input name="dos" type="text"><br>
+
+
+Iniciar como:
+<select name="tres">
+<option selected="selected" value="1">Aminisrador</option>
+<option value="2">Cliente</option>
+</select>
+
+
+<br>
+<input type="submit" value="Registrar">
+</form>
+
+</body></html>
+
+
+
+******************
+
+
+<html>
+<head>
+<title>Problema</title>
+</head>
+<body>
+<?php
+$conexion=mysql_connect("localhost","root","") 
+  or die("Problemas en la conexion");
+mysql_select_db("base1",$conexion) or
+  die("Problemas en la seleccion de la base de datos");
+mysql_query("insert into nodisponibles(user,doc,fechai) values 
+   ('$_REQUEST[uno]','$_REQUEST[dos]',$_REQUEST[tres])", 
+   $conexion) or die("Problemas en el select".mysql_error());
+mysql_close($conexion);
+echo "INGRESO EXITOSO";
+?>
+</body>
+</html>
