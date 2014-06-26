@@ -151,8 +151,8 @@ echo "</form>\n";
 
 
 
-Generar reporte:  
-<a href="/P/pdf/pdf.php" target="_self"> <input type="button" name="boton" value="PDF" /> </a>
+
+
 
 
 

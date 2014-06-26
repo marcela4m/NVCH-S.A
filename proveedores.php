@@ -96,6 +96,7 @@
 	 <a href="inPro.php">Ingresar Proveedor</a></p>
 	 <a href="upPro.php">Actualizar Proveedor</a></p>
 	 <a href="delPro.php">Eliminar Proveedor</a></p>
+	 <a href="/P/pdf/pdfProveedor.php">Ver proveedores</a></p>
 
 
 

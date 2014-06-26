@@ -195,6 +195,79 @@ mysql_select_db('u893654268_3')or die ('Error al seleccionar la Base de Datos: '
 
 
 
+
+
+
+
+
+
+
+<?php
+
+
+
+echo '<br>A continuacion una lista de todos los articulos:';
+
+echo '<br>Recuerde que una vez eliminado no se podra recuperar<br>';
+
+$conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456") 
+  or  die("Problemas en la conexion");
+
+mysql_select_db("u893654268_3",$conexion) 
+  or  die("Problemas en la selección de la base de datos");
+
+$registros=mysql_query("select * from articulo ",$conexion) or
+  die("Problemas en el select:".mysql_error());
+echo "    <table border=\"2\">\n"; 
+
+echo "<td>ID_ARTICULO</td>\n"; 
+echo "<td>NOMBRE</td>\n"; 
+echo "<td>DESCRIOCION</td>\n"; 
+echo "<td>STOCK</td>\n"; 
+ 
+while ($reg=mysql_fetch_array($registros))
+{
+
+
+
+echo "      <tr>\n"; 
+echo "        <td>\n"; 
+  echo $reg['id']."<br>";
+echo "</td>\n"; 
+
+
+echo "        <td>\n"; 
+  echo $reg['nameA']."<br>";
+echo "</td>\n";  
+
+
+echo "        <td>\n"; 
+  echo $reg['desA']."<br>";
+echo "</td>\n";  
+
+
+
+echo "        <td>\n"; 
+  echo $reg['stock']."<br>";
+echo "</td>\n";  
+
+echo "        <td>\n"; 
+
+
+}
+echo "    </table>\n";
+
+echo "      </tr>\n"; 
+echo '<br><br>';
+
+mysql_close($conexion);
+
+
+?>
+
+
+
+
 							</ul>
 						</div>
 					</article>

@@ -96,6 +96,7 @@
 	 <a href="inAr.php">Ingresar Articulo</a></p>
 	 <a href="upAr.php">Actualizar Articulo</a></p>
 	 <a href="delAr.php">Eliminar Articulo</a></p>
+	 <a href="/P/pdf/pdf3.php">Generar Reporte</a></p>
 
 
 
@@ -166,25 +167,113 @@ echo "\n";
 echo "<input type=\"submit\" value=\"ACTUALIZAR\" />\n"; 
 echo "</form>\n";
 
+
+
+
+
+
+
+
+
+
+
+
+
+echo '<br>A continuacion una lista de todos los articulos:';
+
+echo '<br>Recuerde que una vez eliminado no se podra recuperar<br>';
+
+$conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456") 
+  or  die("Problemas en la conexion");
+
+mysql_select_db("u893654268_3",$conexion) 
+  or  die("Problemas en la selección de la base de datos");
+
+$registros=mysql_query("select * from articulo ",$conexion) or
+  die("Problemas en el select:".mysql_error());
+echo "    <table border=\"2\">\n"; 
+
+echo "<td>ID_ARTICULO</td>\n"; 
+echo "<td>NOMBRE</td>\n"; 
+echo "<td>DESCRIOCION</td>\n"; 
+echo "<td>STOCK</td>\n"; 
+ 
+while ($regg=mysql_fetch_array($registros))
+{
+
+
+
+echo "      <tr>\n"; 
+echo "        <td>\n"; 
+  echo $regg['id']."<br>";
+echo "</td>\n"; 
+
+
+echo "        <td>\n"; 
+  echo $regg['nameA']."<br>";
+echo "</td>\n";  
+
+
+echo "        <td>\n"; 
+  echo $regg['desA']."<br>";
+echo "</td>\n";  
+
+
+
+echo "        <td>\n"; 
+  echo $regg['stock']."<br>";
+echo "</td>\n";  
+
+echo "        <td>\n"; 
+
+
+}
+echo "    </table>\n";
+
+echo "      </tr>\n"; 
+echo '<br><br>';
+
+//mysql_close($conexion);
+
+
+
+
+
+
 	
 	}else if($nom!=NULL) {
-	
 	$nombrefoto=$_FILES['six']['name'];
-			$ruta=$_FILES['six']['tmp_name'];
+	
+	if($nombrefoto==NULL){
+//	echo"es nullllllllllllllllllll:".$ima;
+	
+			
+				echo "<img src=\"images/clientes.jpg\" width=\"100\" height=\"100\">\n";
+		
+$query = "Update articulo Set id='$idd',nameA='$nom',desA='$des',priceA='$pre',pro='$pro',stock='$sto' where id='$idd'";
+				mysql_query($query) or die(mysql_error());
+				echo 'El articulo '.$nom.' ha sido actualizado de manera satisfactoria.<br />';
+				
+	}else{
+	
+	
+//echo"no lo es y hay velorrrrrrrrrrrr:".$ima;
+			
+
+$ruta=$_FILES['six']['tmp_name'];
 			$destino="images/".$nombrefoto;
 			copy($ruta,$destino);
 			
-/*			
-			echo "<img src=\"images/clientes.jpg\" alt=\"\" />\n";
-	$nom2=$_FILES['six']['name'];
-echo "<img src=\"$destino\"   >";
-echo "<img src=\"$destino\" alt=\"\" />\n";
-*/
+
 echo "<img src=\"images/clientes.jpg\" width=\"100\" height=\"100\">\n";
 		
 $query = "Update articulo Set id='$idd',nameA='$nom',desA='$des',priceA='$pre',pro='$pro',stock='$sto',image='$destino' where id='$idd'";
 				mysql_query($query) or die(mysql_error());
 				echo 'El articulo '.$nom.' ha sido actualizado de manera satisfactoria.<br />';
+				
+				
+	}
+	
 				
 				
 }else{

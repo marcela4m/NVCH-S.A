@@ -94,9 +94,8 @@
 
          <!--<a href="conClient.php">Consutar Clientes</a></p>-->
 	 <a href="cookie.php">Registrar nueva venta</a></p>
-	
-	 <a href="delVent.php">Eliminar Venta</a></p>
- <a href="/P/pdf/pdf2.php">Generar Reporte</a></p>
+	<a href="delVent.php">Eliminar Venta</a></p>
+ <a href="reportes.php">Generar Reporte</a></p>
  <a href="ventas2.php">Restablecer ultima venta</a></p>
 
 

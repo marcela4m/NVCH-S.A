@@ -56,9 +56,9 @@
 							<nav>
 								<ul class="menu">
 									<li><a href="ingreso.php">CLIENTES</a><strong></strong></li>
-									<li class="active"><a href="proveedores.php">PROVEEDORES</a><strong></strong></li>
-									<li><a href="articulos.php">ARTICULOS</a><strong></strong></li>
-									<li><a href="ventas.php">VENTAS</a><strong></strong></li>
+									<li><a href="proveedores.php">PROVEEDORES</a><strong></strong></li>
+									<li ><a href="articulos.php">ARTICULOS</a><strong></strong></li>
+									<li class="active"><a href="ventas.php">VENTAS</a><strong></strong></li>
 									
 								</ul>
 							</nav>
@@ -85,7 +85,7 @@
 				</div>
 				<div class="wrapper border-bot2 margin-bot">
 					<article class="grid_6 spacer-2">
-						<h2 class="indent-bot">MENU PROVEEDORES</h2>
+						<h2 class="indent-bot">MENU VENTAS</h2>
 
 
 
@@ -93,10 +93,10 @@
 <table border="0">
 
          <!--<a href="conClient.php">Consutar Clientes</a></p>-->
-	 <a href="inPro.php">Ingresar Proveedor</a></p>
-	 <a href="upPro.php">Actualizar Proveedor</a></p>
-	 <a href="delPro.php">Eliminar Proveedor</a></p>
-
+	 <a href="cookie.php">Registrar nueva venta</a></p>
+	<a href="delVent.php">Eliminar Venta</a></p>
+ <a href="/P/pdf/pdf2.php">Generar Reporte</a></p>
+ <a href="ventas2.php">Restablecer ultima venta</a></p>
 
 
 
@@ -120,146 +120,13 @@
 					</article>
 					<article class="grid_6">
 						<div class="indent">
-							<h2 class="indent-bot">ELIMINAR PROVEEDOR</h2>
+							<h2 class="indent-bot">REPORTE DE VENTAS</h2>
 
 							<ul class="list-2">
 								
-								<form action="delPro.php" method="post">
-
-
-    <table border="0">
-
-
- <tr>
-        <td>Ip de proveedor:</td>
-        <td><input name="one" type="text"></td>
-      </tr>
-
-
-      
-
-
-    </table>
-
-
-
-
-<input type="submit" value="Eliminar registro" />
-</form>
-							
-							
-							
-							
-							
-							<?php
-//session_start();
-
-mysql_connect('mysql.nixiweb.com','u893654268_3','123456')or die ('Ha fallado la conexión: '.mysql_error());
-mysql_select_db('u893654268_3')or die ('Error al seleccionar la Base de Datos: '.mysql_error());
-
-
-
-	$idd = $_POST["one"];
-	
-	// Hay campos en blanco
-	 if($idd==NULL) {
-		
-//echo "<h2> ingrese el id.</h2>";
-		
-	}else{
-			// Comprobamos si el nombre de usuario o la cuenta de correo ya existían
-			$checkuser = mysql_query("SELECT * FROM proveedor WHERE id='$idd'");
-			$username_exist = mysql_num_rows($checkuser);
-
-			//$checkemail = mysql_query("SELECT correo FROM paciente WHERE correo='$email'");
-			//$email_exist = mysql_num_rows($checkemail);
-
-			if ($username_exist==0) {
-				echo "<h2>El proveedor no existe o ya se elimino</h2>";
-				
-			}else{
-							
-				$query = "DELETE FROM proveedor WHERE id='$idd'";
-				mysql_query($query) or die(mysql_error());
-				echo 'El proveedor ha sido eliminado de manera satisfactoria.<br />';
-				
-				
-			}
-		}
-	
-	
-?>
-
-
-
-
-
-<?php
-
-
-
-echo '<br>A continuacion una lista de todos los proveedores:';
-
-echo '<br>Recuerde que una vez eliminado no se podra recuperar<br>';
-
-$conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456") 
-  or  die("Problemas en la conexion");
-
-mysql_select_db("u893654268_3",$conexion) 
-  or  die("Problemas en la selección de la base de datos");
-
-$registros=mysql_query("select * from proveedor ",$conexion) or
-  die("Problemas en el select:".mysql_error());
-echo "    <table border=\"2\">\n"; 
-
-echo "<td>ID_PROVEEDOR</td>\n"; 
-echo "<td>NOM_EMPRESA</td>\n"; 
-echo "<td>DIRECCION</td>\n"; 
-echo "<td>TELEFONO</td>\n"; 
- 
-while ($reg=mysql_fetch_array($registros))
-{
-
-
-
-echo "      <tr>\n"; 
-echo "        <td>\n"; 
-  echo $reg['id']."<br>";
-echo "</td>\n"; 
-
-
-echo "        <td>\n"; 
-  echo $reg['empresa']."<br>";
-echo "</td>\n";  
-
-
-echo "        <td>\n"; 
-  echo $reg['addressP']."<br>";
-echo "</td>\n";  
-
-
-
-echo "        <td>\n"; 
-  echo $reg['phoneP']."<br>";
-echo "</td>\n";  
-
-echo "        <td>\n"; 
-
-
-}
-echo "    </table>\n";
-
-echo "      </tr>\n"; 
-echo '<br><br>';
-
-mysql_close($conexion);
-
-
-?>
-
-
-
-								
+								<!-- <li class="last"><a href="#">Click Aqui</a></li> -->
+								<a href="/P/pdf/pdf2.php">Reporte General</a></p>
+								<a href="reportes2.php">Reporte por cliente</a></p>
 							</ul>
 						</div>
 					</article>

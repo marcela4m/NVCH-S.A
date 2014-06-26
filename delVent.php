@@ -56,9 +56,9 @@
 							<nav>
 								<ul class="menu">
 									<li><a href="ingreso.php">CLIENTES</a><strong></strong></li>
-									<li class="active"><a href="proveedores.php">PROVEEDORES</a><strong></strong></li>
-									<li><a href="articulos.php">ARTICULOS</a><strong></strong></li>
-									<li><a href="ventas.php">VENTAS</a><strong></strong></li>
+									<li><a href="proveedores.php">PROVEEDORES</a><strong></strong></li>
+									<li ><a href="articulos.php">ARTICULOS</a><strong></strong></li>
+									<li class="active"><a href="ventas.php">VENTAS</a><strong></strong></li>
 									
 								</ul>
 							</nav>
@@ -85,7 +85,7 @@
 				</div>
 				<div class="wrapper border-bot2 margin-bot">
 					<article class="grid_6 spacer-2">
-						<h2 class="indent-bot">MENU PROVEEDORES</h2>
+						<h2 class="indent-bot">MENU VENTAS</h2>
 
 
 
@@ -93,10 +93,10 @@
 <table border="0">
 
          <!--<a href="conClient.php">Consutar Clientes</a></p>-->
-	 <a href="inPro.php">Ingresar Proveedor</a></p>
-	 <a href="upPro.php">Actualizar Proveedor</a></p>
-	 <a href="delPro.php">Eliminar Proveedor</a></p>
-
+	 <a href="cookie.php">Registrar nueva venta</a></p>
+	<a href="delVent.php">Eliminar Venta</a></p>
+ <a href="reportes.php">Generar Reporte</a></p>
+ <a href="ventas2.php">Restablecer ultima venta</a></p>
 
 
 
@@ -120,18 +120,22 @@
 					</article>
 					<article class="grid_6">
 						<div class="indent">
-							<h2 class="indent-bot">ELIMINAR PROVEEDOR</h2>
+							<h2 class="indent-bot">ELIMINAR VENTA</h2>
 
 							<ul class="list-2">
 								
-								<form action="delPro.php" method="post">
+								
+								
+								A continuacion ingrese el ID de la venta a eliminar:
+								
+								<form action="delVent.php" method="post">
 
 
     <table border="0">
 
 
  <tr>
-        <td>Ip de proveedor:</td>
+        <td>ID:</td>
         <td><input name="one" type="text"></td>
       </tr>
 
@@ -154,34 +158,71 @@
 							<?php
 //session_start();
 
-mysql_connect('mysql.nixiweb.com','u893654268_3','123456')or die ('Ha fallado la conexión: '.mysql_error());
+$conexion=mysql_connect('mysql.nixiweb.com','u893654268_3','123456')or die ('Ha fallado la conexión: '.mysql_error());
 mysql_select_db('u893654268_3')or die ('Error al seleccionar la Base de Datos: '.mysql_error());
 
 
 
-	$idd = $_POST["one"];
+	$cedula = $_POST["one"];
 	
 	// Hay campos en blanco
-	 if($idd==NULL) {
+	 if($cedula==NULL) {
 		
-//echo "<h2> ingrese el id.</h2>";
+//echo "<h2> ingrese la cedula.</h2>";
 		
 	}else{
 			// Comprobamos si el nombre de usuario o la cuenta de correo ya existían
-			$checkuser = mysql_query("SELECT * FROM proveedor WHERE id='$idd'");
+			$checkuser = mysql_query("SELECT * FROM ventas WHERE idv='$cedula'");
 			$username_exist = mysql_num_rows($checkuser);
 
 			//$checkemail = mysql_query("SELECT correo FROM paciente WHERE correo='$email'");
 			//$email_exist = mysql_num_rows($checkemail);
 
 			if ($username_exist==0) {
-				echo "<h2>El proveedor no existe o ya se elimino</h2>";
+				echo "<h2>La venta no se ha registrado aun o ya se elimino</h2>";
 				
 			}else{
 							
-				$query = "DELETE FROM proveedor WHERE id='$idd'";
-				mysql_query($query) or die(mysql_error());
-				echo 'El proveedor ha sido eliminado de manera satisfactoria.<br />';
+				$query = "DELETE FROM ventas WHERE idv='$cedula'";
+				mysql_query($query) or die("Problemas en el select1:".mysql_error());
+				
+				
+
+  /*
+  $query2 = "select * from Client_Art WHERE idVent='$cedula' ";
+				mysql_query($query2) or die("Problemas en el select2:".mysql_error());
+  */
+  
+  
+ 
+
+
+
+$query2=mysql_query("select * from Client_Art WHERE idVent='$cedula' ",$conexion) or
+  die("Problemas en el select:".mysql_error());
+  
+  //($reg4=mysql_fetch_array($registros4))
+  while($res=mysql_fetch_array($query2))
+  {
+  $arti=$res['art'];
+  
+  
+  $query3=mysql_query("select * from articulo WHERE id='$arti'  ",$conexion) or
+  die("Problemas en el select:".mysql_error());
+  
+  ;
+				$res2=mysql_fetch_array($query3);
+				$stoo=$res2['stock'];
+				$new=$stoo+$res['cant'];
+  $query4 = "Update articulo Set stock='$new' WHERE id='$arti' ";
+				mysql_query($query4) or die("Problemas en el select3:".mysql_error());
+  
+  }
+				
+				$query = "DELETE FROM Client_Art WHERE idVent='$cedula'";
+				mysql_query($query) or die("Problemas en el select:5".mysql_error());
+				
+				echo 'La venta ha sido eliminada de manera satisfactoria.<br />';
 				
 				
 			}
@@ -194,13 +235,23 @@ mysql_select_db('u893654268_3')or die ('Error al seleccionar la Base de Datos: '
 
 
 
+
+
+
+
+
+
+
+
+
+
 <?php
 
 
 
-echo '<br>A continuacion una lista de todos los proveedores:';
+echo '<br>O si lo prefiere, a continuacion seleccione la venta que desea eliminar:';
 
-echo '<br>Recuerde que una vez eliminado no se podra recuperar<br>';
+echo '<br>Recuerde que una vez eliminada no se podra recuperar<br>';
 
 $conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456") 
   or  die("Problemas en la conexion");
@@ -208,42 +259,51 @@ $conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456")
 mysql_select_db("u893654268_3",$conexion) 
   or  die("Problemas en la selección de la base de datos");
 
-$registros=mysql_query("select * from proveedor ",$conexion) or
+$registros=mysql_query("select * from ventas ",$conexion) or
   die("Problemas en el select:".mysql_error());
 echo "    <table border=\"2\">\n"; 
 
-echo "<td>ID_PROVEEDOR</td>\n"; 
-echo "<td>NOM_EMPRESA</td>\n"; 
-echo "<td>DIRECCION</td>\n"; 
-echo "<td>TELEFONO</td>\n"; 
+echo "<td>ID_VENTA</td>\n"; 
+echo "<td>NOMBRE_CLIENTE</td>\n"; 
+echo "<td>FECHA</td>\n"; 
+echo "<td>VALOR</td>\n"; 
  
 while ($reg=mysql_fetch_array($registros))
 {
 
 
-
+echo "<form action=\"delVent2.php\" method=\"post\">\n"; 
 echo "      <tr>\n"; 
 echo "        <td>\n"; 
-  echo $reg['id']."<br>";
+  echo $reg['idv']."<br>";
 echo "</td>\n"; 
 
 
 echo "        <td>\n"; 
-  echo $reg['empresa']."<br>";
+  echo $reg['nomc']."<br>";
 echo "</td>\n";  
 
 
 echo "        <td>\n"; 
-  echo $reg['addressP']."<br>";
+  echo $reg['date']."<br>";
 echo "</td>\n";  
 
 
 
 echo "        <td>\n"; 
-  echo $reg['phoneP']."<br>";
+  echo $reg['valVent']."<br>";
 echo "</td>\n";  
 
+
+
+
 echo "        <td>\n"; 
+echo "<input type=\"radio\" name=\"client\"  value=".$reg["idv"]." ></td>\n";
+
+
+//value=".$reg["CC"]."
+//name=\"one\" 
+
 
 
 }
@@ -251,15 +311,23 @@ echo "    </table>\n";
 
 echo "      </tr>\n"; 
 echo '<br><br>';
+echo "<input type=\"submit\"  value=\"Eliminar Venta\" />\n"; 
+echo "</form>\n";
 
 mysql_close($conexion);
 
 
+/*
+  if (isset($_COOKIE['user'])){
+  
+  
+	echo "user es igual aaaaaa:";
+echo	$_COOKIE[user];
+}
+*/
 ?>
 
 
-
-								
 							</ul>
 						</div>
 					</article>

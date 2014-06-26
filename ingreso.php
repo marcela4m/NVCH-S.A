@@ -43,6 +43,9 @@
 									<a class="search-button" href="#" onClick="document.getElementById('search-form').submit()"><span>search</span></a>							
 								</fieldset>
 							</form>
+							
+<p><a href="logout.php">Cerrar Sesion</a></p>
+
 						</div>
 					</div>
 				</div>
@@ -97,6 +100,7 @@
 	 <a href="inClient.php">Ingresar Clientes</a></p>
 	 <a href="upClient.php">Actualizar Clientes</a></p>
 	 <a href="delClient.php">Eliminar Clientes</a></p>
+	 <a href="/P/pdf/pdfCliente.php">Ver Clientes</a></p>
 
 
 

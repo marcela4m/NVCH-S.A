@@ -166,6 +166,75 @@ echo "\n";
 echo "<input type=\"submit\" value=\"ACTUALIZAR\" />\n"; 
 echo "</form>\n";
 
+
+
+
+
+
+
+
+
+
+echo '<br>A continuacion una lista de todos los Clientes actualmente registrados en el sistema:';
+
+
+
+$conexion=mysql_connect("mysql.nixiweb.com","u893654268_3","123456") 
+  or  die("Problemas en la conexion");
+
+mysql_select_db("u893654268_3",$conexion) 
+  or  die("Problemas en la selección de la base de datos");
+
+$registros=mysql_query("select * from clientes ",$conexion) or
+  die("Problemas en el select:".mysql_error());
+echo "    <table border=\"2\">\n"; 
+
+echo "<td>CC_CLIENTE</td>\n"; 
+echo "<td>NOMBRE</td>\n"; 
+echo "<td>DIRECCION</td>\n"; 
+echo "<td>TELEFONO</td>\n"; 
+ 
+while ($reg=mysql_fetch_array($registros))
+{
+
+
+
+echo "      <tr>\n"; 
+echo "        <td>\n"; 
+  echo $reg['CC']."<br>";
+echo "</td>\n"; 
+
+
+echo "        <td>\n"; 
+  echo $reg['nameC']."<br>";
+echo "</td>\n";  
+
+
+echo "        <td>\n"; 
+  echo $reg['addressC']."<br>";
+echo "</td>\n";  
+
+
+
+echo "        <td>\n"; 
+  echo $reg['phoneC']."<br>";
+echo "</td>\n";  
+
+echo "        <td>\n"; 
+
+
+}
+echo "    </table>\n";
+
+echo "      </tr>\n"; 
+echo '<br><br>';
+
+mysql_close($conexion);
+
+
+
+
+
 	
 	}else if($nom!=NULL) {
 $query = "Update clientes Set CC='$cedula',nameC='$nom',addressC='$dir',phoneC='$tel' where CC='$cedula'";

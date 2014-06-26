@@ -37,7 +37,8 @@ mysql_select_db("u893654268_3",$conexion)
 
 	if($idd==NULL) {
 	
-	
+//	echo "la cookie essssssssssssssssssssssssssssssssss:";
+//	echo $_COOKIE[user];
 echo "A continuacion seleccione el cliente:	"; 
 
 echo "<form method=\"post\" action=\"con_Clientes.php\" TARGET=\"_parent\">\n"; 
@@ -69,6 +70,7 @@ echo " <tr>\n";
 echo "        <td>ID_Cliente</td>\n"; 
 echo "        <td>Nombre_Cliente</td>\n"; 
 echo "        <td>Fecha_Venta</td>\n"; 
+echo "        <td>No. de venta</td>\n";
 echo "</tr>\n"; 
 echo "\n"; 
 echo " <tr>\n"; 
@@ -86,6 +88,14 @@ echo "</td>\n";
 echo "        <td>"; 
 echo date("Y-m-d");
 echo "        </td>\n"; 
+
+
+echo "        <td>\n"; 
+  echo $_COOKIE[user]."<br>";
+echo "</td>\n";
+
+
+
 echo "</tr>\n";
 echo "\n"; 
 echo "    </table>\n"; 
@@ -99,10 +109,30 @@ echo "\n";
  // echo $_COOKIE[user];
  
  
+ 
+
+				
+				
+
+
+
+
+
+
+
+ 
+ 
  	$registros=mysql_query("SELECT * FROM clientes WHERE CC='$idd'") or
   die("Problemas en el select:".mysql_error());
   $reg=mysql_fetch_array($registros);
+  //$last_id1 = mysql_result( mysql_query( $query2 ), 0, 0 );
   
+   $query = 'INSERT INTO ventas (idc, nomc, date)
+				VALUES (\''.$idd.'\',\''.$reg['nameC'].'\',\''.date("Y-m-d").'\')';
+				mysql_query($query) or die(mysql_error());
+				$query2 = "SELECT LAST_INSERT_ID() FROM ventas";
+$last_id = mysql_result( mysql_query( $query2 ), 0, 0 );
+setcookie("user","$last_id",time()+60*60*24*365,"/");
   
 
 echo "\n"; 
@@ -113,6 +143,7 @@ echo " <tr>\n";
 echo "        <td>ID_Cliente</td>\n"; 
 echo "        <td>Nombre_Cliente</td>\n"; 
 echo "        <td>Fecha_Venta</td>\n"; 
+echo "        <td>No. de venta</td>\n";
 echo "</tr>\n"; 
 echo "\n"; 
 echo " <tr>\n"; 
@@ -130,6 +161,14 @@ echo "</td>\n";
 echo "        <td>"; 
 echo date("Y-m-d");
 echo "        </td>\n"; 
+
+
+echo "        <td>\n"; 
+  echo $last_id."<br>";
+echo "</td>\n";
+
+
+
 echo "</tr>\n";
 echo "\n"; 
 echo "    </table>\n"; 
@@ -138,15 +177,7 @@ echo "\n";
 
 
 
-$query = 'INSERT INTO ventas (idc, nomc, date)
-				VALUES (\''.$reg['CC'].'\',\''.$reg['nameC'].'\',\''.date("Y-m-d").'\')';
-				mysql_query($query) or die(mysql_error());
-				//echo 'El usuario '.$nom.' ha sido registrado de manera satisfactoria.<br />';
-				$query2 = "SELECT LAST_INSERT_ID() FROM ventas";
-$last_id = mysql_result( mysql_query( $query2 ), 0, 0 );
 
-
-setcookie("user","$last_id",time()+60*60*24*365,"/");
 			
 //echo "El ultimo fueeeeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::".$last_id;		
 }
@@ -176,6 +207,8 @@ echo "\n";
 echo "</form>\n";
 
 $var=$_COOKIE[user];
+//echo "la cookie Var essssssssssssssssssssssssssssssssss:";
+//echo $var;
 
 //$registros2=mysql_query("select * from Client_Art WHERE client='$var' ",$conexion) or
 $registros2=mysql_query("select * from Client_Art WHERE idVent='$var' ",$conexion) or
@@ -348,11 +381,13 @@ echo "</td>\n";
 
 echo "      </tr>\n"; 
 echo "    </table>\n";
-
+echo "    <br>  <br>";
 echo "  <input type=\"submit\" value=\"Registrar Venta\"> \n"; 
 echo "  </form>\n";
 
-
+echo "<form method=\"post\" action=\"cookie.php\"> \n"; 
+echo "  <input type=\"submit\" value=\"Registrar y continuar\"> \n"; 
+echo "  </form>\n";
 
 
 
@@ -384,10 +419,11 @@ while ($reg4=mysql_fetch_array($registros4))
 
   if (isset($_REQUEST[$reg4['id']]))
   {
-   // echo"ENTROOOOOOOOOOOOOOOOOOOOOOOO";
+    //echo"ENTROOOOOOOOOOOOOOOOOOOOOOOO";
   if($reg4["stock"]<1){
   }else{
   
+  if($_COOKIE[user]!="3333333"){
 $query = 'INSERT INTO Client_Art (idVent, art,cant)
 				VALUES (\''.$_COOKIE[user].'\',\''.$reg4['id'].'\',1)';
 				mysql_query($query) or die(mysql_error());
@@ -401,12 +437,14 @@ $query = 'INSERT INTO Client_Art (idVent, art,cant)
 				
 				$query2 = "Update articulo Set stock='$cannty' WHERE id='$id_arti' ";
 				mysql_query($query2) or die(mysql_error());
+
+	}
 				
 }				
 	header('Location:ventas2.php');
 }
 
-
+ //echo"no ENTROOO";
 }
 //aaqqqqqqqqqqqqqqqqqqqqqqqqqq
 
